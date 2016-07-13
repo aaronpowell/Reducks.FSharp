@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Reducks.FSharp", "Reducks.FSharp\Reducks.FSharp.fsproj", "{9C8CDED2-7633-412D-8ACB-AE8427548910}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{DFE44AA5-5156-4F0F-8755-5E8481354341}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Reducks.FSharp.Examples.SignalR", "Examples\Reducks.FSharp.Examples.SignalR\Reducks.FSharp.Examples.SignalR.fsproj", "{899B09BC-DB61-43E4-B2C9-4743DC52343B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C8CDED2-7633-412D-8ACB-AE8427548910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C8CDED2-7633-412D-8ACB-AE8427548910}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C8CDED2-7633-412D-8ACB-AE8427548910}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C8CDED2-7633-412D-8ACB-AE8427548910}.Release|Any CPU.Build.0 = Release|Any CPU
+		{899B09BC-DB61-43E4-B2C9-4743DC52343B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{899B09BC-DB61-43E4-B2C9-4743DC52343B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{899B09BC-DB61-43E4-B2C9-4743DC52343B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{899B09BC-DB61-43E4-B2C9-4743DC52343B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{899B09BC-DB61-43E4-B2C9-4743DC52343B} = {DFE44AA5-5156-4F0F-8755-5E8481354341}
+	EndGlobalSection
+EndGlobal

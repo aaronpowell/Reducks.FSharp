@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+<head>
+    <title>Demo</title>
+</head>
+<body>
+    <h1>Reducks chat</h1>
+
+    <div id="chat"></div>
+
+    <!--<div class="container">
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion"></ul>
+    </div>-->
+
+    <script src="//code.jquery.com/jquery-2.2.4.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="signalr/hubs"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+
+    <script>
+        $(function () {
+            var createAction = function (type, payload) {
+                var Case = '';
+                switch (type) {
+                    case 'USER_TYPING':
+                        Case = 'Typing';
+                        break;
+
+                    case 'NEW_USER':
+                    case 'POST_MESSAGE':
+                        Case = 'User';
+                        break;
+                }
+
+                return {
+                    type,
+                    payload: {
+                        Case,
+                        Fields: [payload]
+                    }
+                };
+            };
+
+            var MessageList = function MessageList (props) {
+                var messages = props.messages;
+
+                return React.createElement(
+                    'div',
+                    {
+                        className: 'message-list',
+                        children: messages.map(function (message) {
+                            return React.createElement(
+                                'div',
+                                {
+                                    className: 'message',
+                                    key: message.id
+                                },
+                                moment(message.timestamp).format('hh:mm') + ' ' + message.user + ': ' + message.message
+                            );
+                        })
+                    }
+                );
+            };
+
+            var ChatBox = function ChatBox(props) {
+                if (!props.user) {
+                    return null;
+                }
+
+                return React.createElement(
+                    'div',
+                    {
+                        className: 'message-box',
+                        children: [
+                            props.user + ': ',
+                            React.createElement('input', {
+                                type: 'text',
+                                onChange: (e) => props.onChange(e.target.value),
+                                value: props.value
+                            }),
+                            React.createElement('button', {
+                                type: 'button',
+                                onClick: props.onSend
+                            }, 'send')
+                        ]
+                    }
+                );
+            };
+
+            var ChatComponent = React.createClass({
+                displayName: 'ChatComponent',
+
+                getInitialState: function () {
+                    return {};
+                },
+
+                getDefaultProps: function () {
+                    return {
+                        messages: [],
+                        typing: {}
+                    };
+                },
+
+                componentDidMount: function () {
+                    var user = prompt('What is your name?', '');
+                    this.props.dispatch(createAction('NEW_USER', user));
+                    this.user = user;
+                },
+
+                render: function () {
+                    var currentUserMessage = this.props.typing[this.user];
+
+                    return React.createElement('div', {
+                        className: 'chat-container',
+                        children: [
+                            React.createElement(MessageList, {
+                                messages: this.props.messages
+                            }),
+                            React.createElement(ChatBox, {
+                                user: this.user,
+                                value: currentUserMessage ? currentUserMessage : '',
+                                onChange: this.onChange,
+                                onSend: this.onSend
+                            })
+                        ]
+                    })
+                },
+
+                onChange: function (value) {
+                    var action = createAction('USER_TYPING', { user: this.user, value });
+                    this.props.dispatch(action);
+                },
+
+                onSend: function () {
+                    this.props.dispatch(createAction('POST_MESSAGE', this.user));
+                }
+            });
+
+            var createStore = function (initialState) {
+                var subscribers = [];
+                var currentState = initialState;
+                var chat = $.connection.chatHub;
+
+                chat.client.subscribe = function (nextState) {
+                    if (currentState === nextState) {
+                        return;
+                    }
+
+                    currentState = nextState;
+
+                    subscribers.map(s => s());
+                };
+
+                var dispatch = function (action) {
+                    chat.server.dispatch(action);
+                };
+
+                var getState = () => currentState;
+
+                var subscribe = function (subscriber) {
+                    subscribers.push(subscriber);
+                };
+
+                return {
+                    getState,
+                    dispatch,
+                    subscribe
+                };
+            };
+
+            var Provider = React.createClass({
+                displayName: 'Provider',
+
+                getChildContext: function () {
+                    return { store: this.props.store };
+                },
+
+                render: function () {
+                    return React.Children.only(this.props.children);
+                }
+            });
+
+            Provider.childContextTypes = {
+                store: React.PropTypes.any
+            };
+
+            var connect = function (component) {
+                var Connect = class Connect extends React.Component {
+                    constructor(props, context) {
+                        super(props, context);
+
+                        this.store = props.store || context.store;
+                        this.state = { storeState: this.store.getState() };
+                    }
+
+                    componentDidMount() {
+                        this.store.subscribe(() => {
+                            var state = this.store.getState();
+                            this.setState({ storeState: state });
+                        });
+                    }
+
+                    render() {
+                        var props = Object.assign({}, this.state.storeState, { dispatch: this.store.dispatch.bind(this.store) });
+
+                        return React.createElement(component, props);
+                    }
+                }
+
+                Connect.contextTypes = {
+                    store: React.PropTypes.any
+                };
+
+                Connect.propTypes = {
+                    store: React.PropTypes.any
+                };
+
+                return React.createElement(Connect);
+            }
+
+            var store = createStore({});
+            $.connection.hub.start().done(function () {
+                ReactDOM.render(React.createElement(Provider, { store, children: connect(ChatComponent) }), document.getElementById('chat'));
+            });
+
+
+            //chat.client.sendState = function (state) {
+            //    console.dir(state);
+            //};
+
+            //chat.client.addMessage = function (name, message) {
+            //    // Html encode display name and message.
+            //    var encodedName = $('<div />').text(name).html();
+            //    var encodedMsg = $('<div />').text(message).html();
+            //    // Add the message to the page.
+            //    $('#discussion').append('<li><strong>' + encodedName
+            //        + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+            //};
+
+            //$('#displayname').val(prompt('Enter your name:', ''));
+
+            //$('#message').focus();
+
+            //$.connection.hub.start().done(function () {
+            //    $('#sendmessage').click(function () {
+            //        chat.server.send($('#displayname').val(), $('#message').val());
+            //        $('#message').val('').focus();
+            //    });
+            //});
+        });
+    </script>
+
+</body>
+</html>
