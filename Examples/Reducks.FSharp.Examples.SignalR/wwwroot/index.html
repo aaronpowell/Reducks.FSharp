@@ -33,17 +33,16 @@
                         break;
 
                     case 'NEW_USER':
-                    case 'POST_MESSAGE':
                         Case = 'User';
+                        break;
+                    case 'POST_MESSAGE':
+                        Case = 'PostMessage';
                         break;
                 }
 
                 return {
-                    type,
-                    payload: {
-                        Case,
-                        Fields: [payload]
-                    }
+                    Case,
+                    Fields: [payload]
                 };
             };
 

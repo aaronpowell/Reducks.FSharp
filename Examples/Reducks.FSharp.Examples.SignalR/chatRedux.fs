@@ -17,28 +17,15 @@ type State = {
 
 let failer = fun () -> failwith "Type provided not vaid for action"
 
-let reducer = fun (state: State) (action: Action<Payload>) ->
-    match action.``type`` with
-    | "POST_MESSAGE" ->
-        match action.payload with
-        | Message (user, timestamp) -> 
-            let message = state.typing.[user]
-            { state with 
-                messages = Seq.append state.messages [{ user = user; timestamp = timestamp; message = message }]
-                typing = Map.remove user state.typing }
-        | _ -> state
-
-    | "TYPING" ->
-        match action.payload with
-        | Typing (user, value) -> { state with typing = state.typing.Add(user, value) }
-        | _ -> state
-
-    | "NEW_USER" ->
-        match action.payload with
-        | NewUser user -> { state with users = Set.add user state.users }
-        | _ -> state
-
-    | _ -> state
+let reducer = fun (state: State) (action: Payload) ->
+    match action with
+    | Message (user, timestamp) -> 
+        let message = state.typing.[user]
+        { state with 
+            messages = Seq.append state.messages [{ user = user; timestamp = timestamp; message = message }]
+            typing = Map.remove user state.typing }
+    | Typing (user, value) -> { state with typing = state.typing.Add(user, value) }
+    | NewUser user -> { state with users = Set.add user state.users }
 
 let store = createStore (reducer, { typing = Map.empty<string, string>; messages = Seq.empty; users = Set.empty })
 

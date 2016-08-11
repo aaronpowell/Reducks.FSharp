@@ -13,6 +13,7 @@ type Typing = {
 
 type Payload =
     | User of string
+    | PostMessage of string
     | Typing of Typing
 
 type public ChatHub() =
@@ -27,22 +28,9 @@ type public ChatHub() =
         ) |> ignore
         System.Threading.Tasks.Task.Run(fun () -> ())
 
-    member this.Dispatch (action: Action<Payload>) =
-        match action.``type`` with
-        | "USER_TYPING" ->
-            match action.payload with
-            | Typing payload -> 
-                store.dispatch(typingAction payload.user payload.value) |> ignore
-            | _ -> ()
-
-        | "NEW_USER" ->
-            match action.payload with
-            | User payload -> store.dispatch(newUserAction payload) |> ignore
-            | _ -> ()
-
-        | "POST_MESSAGE" ->
-            match action.payload with
-            | User payload -> store.dispatch(postMessageAction payload) |> ignore
-            | _ -> ()
-
-        | _ -> ()
+    member this.Dispatch (action: Payload) =
+        match action with
+        | Typing payload -> 
+            store.dispatch(typingAction payload.user payload.value) |> ignore
+        | User payload -> store.dispatch(newUserAction payload) |> ignore
+        | PostMessage payload -> store.dispatch(postMessageAction payload) |> ignore

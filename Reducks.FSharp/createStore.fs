@@ -6,7 +6,7 @@ type Action<'Payload> =
 
 type Store<'State, 'Payload> =
     { getState : unit -> 'State
-      dispatch : Action<'Payload> -> Action<'Payload>
+      dispatch : 'Payload -> 'Payload
       subscribe : (unit -> unit) -> unit -> unit }
 
 let createStore<'State, 'Payload> =
@@ -15,7 +15,7 @@ let createStore<'State, 'Payload> =
         let mutable subs = Seq.empty
 
         let dispatcher =
-            fun (action : Action<'Payload>) ->
+            fun (action : 'Payload) ->
                 state <- reducer state action
                 subs |> Seq.iter (fun s -> s())
                 action
