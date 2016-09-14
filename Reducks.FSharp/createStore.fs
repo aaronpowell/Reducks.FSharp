@@ -1,9 +1,5 @@
 ﻿module reducks
 
-type Action<'Payload> =
-    { ``type`` : string
-      payload : 'Payload }
-
 type Store<'State, 'Payload> =
     { getState : unit -> 'State
       dispatch : 'Payload -> 'Payload
