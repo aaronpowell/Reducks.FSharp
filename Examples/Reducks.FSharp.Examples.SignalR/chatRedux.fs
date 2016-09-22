@@ -27,6 +27,20 @@ let reducer = fun (state: State) (action: Payload) ->
     | Typing (user, value) -> { state with typing = state.typing.Add(user, value) }
     | NewUser user -> { state with users = Set.add user state.users }
 
-let store = createStore (reducer, { typing = Map.empty<string, string>; messages = Seq.empty; users = Set.empty })
+
+let middleware = fun store ->
+    fun next ->
+        fun action ->
+            match action with
+            | NewUser user -> printfn "The user '%s' has joined" user
+            | _ -> ()
+
+            next(action)
+
+let store = createStore (
+                reducer,
+                { typing = Map.empty<string, string>; messages = Seq.empty; users = Set.empty },
+                [middleware]
+)
 
 let getStore = fun () -> store
