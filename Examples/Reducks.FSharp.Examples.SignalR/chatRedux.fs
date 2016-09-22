@@ -37,10 +37,9 @@ let middleware = fun store ->
 
             next(action)
 
-let store = createStore (
-                reducer,
-                { typing = Map.empty<string, string>; messages = Seq.empty; users = Set.empty },
+let store = createStore
+                reducer
+                { typing = Map.empty<string, string>; messages = Seq.empty; users = Set.empty }
                 [middleware]
-)
 
 let getStore = fun () -> store

@@ -19,10 +19,10 @@ let compose = fun chain ->
         fun arg -> List.foldBack (fun func composed -> func composed) rest (last arg)
 
 let rec createStore<'State, 'Payload> = 
-    fun (reducer, initialState : 'State, middlewares : seq<MiddlewareStore<'State, 'Payload> -> ('Payload -> 'Payload) -> 'Payload -> 'Payload>) -> 
+    fun reducer (initialState : 'State) (middlewares : seq<MiddlewareStore<'State, 'Payload> -> ('Payload -> 'Payload) -> 'Payload -> 'Payload>) -> 
         match Seq.isEmpty (middlewares) with
         | false -> 
-            let store = createStore (reducer, initialState, Seq.empty)
+            let store = createStore reducer initialState Seq.empty
             let mutable dispatch = store.dispatch
 
             let chain = 
