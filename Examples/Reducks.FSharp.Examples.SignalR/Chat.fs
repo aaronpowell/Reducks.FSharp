@@ -30,7 +30,7 @@ type public ChatHub() =
 
     member this.Dispatch (action: Payload) =
         match action with
-        | Typing payload -> 
+        | Typing payload ->
             store.dispatch(typingAction payload.user payload.value) |> ignore
         | User payload -> store.dispatch(newUserAction payload) |> ignore
         | PostMessage payload -> store.dispatch(postMessageAction payload) |> ignore

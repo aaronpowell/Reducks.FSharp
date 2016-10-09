@@ -2,7 +2,7 @@
 
 open reducks
 
-type Payload = 
+type Payload =
     | NewUser of string
     | Message of (string * System.DateTimeOffset)
     | Typing of (string * string)
