@@ -10,13 +10,9 @@ type Store<'State, 'Payload> =
       subscribe : (unit -> unit) -> unit -> unit }
 
 let compose chain =
-    if (Seq.isEmpty chain) then
-        fun arg -> arg
-    else
-        let last = Seq.last chain
-        let rest = Seq.toList(chain).[0..(Seq.length chain) - 2]
-
-        fun arg -> List.foldBack (fun func composed -> func composed) rest (last arg)
+    let last = Seq.last chain
+    let rest = Seq.toList(chain).[0..(Seq.length chain) - 2]
+    fun arg -> List.foldBack (fun func composed -> func composed) rest (last arg)
 
 let rec createStore<'State, 'Payload> =
     fun reducer (initialState : 'State) (middlewares : seq<MiddlewareStore<'State, 'Payload> -> ('Payload -> 'Payload) -> 'Payload -> 'Payload>) ->

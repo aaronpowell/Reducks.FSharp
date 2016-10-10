@@ -1,17 +1,18 @@
 ﻿module actions
 
 open reducks
+open System
 
 type Payload =
     | NewUser of string
-    | Message of (string * System.DateTimeOffset)
+    | Message of (string * DateTimeOffset)
     | Typing of (string * string)
 
-let postMessageAction = fun name ->
-    Message(name, System.DateTimeOffset.Now)
+let postMessageAction name =
+    Message(name, DateTimeOffset.Now)
 
-let typingAction = fun user value ->
+let typingAction user value =
     Typing(user, value)
 
-let newUserAction = fun user ->
+let newUserAction user =
     NewUser(user)

@@ -15,8 +15,6 @@ type State = {
     users: Set<string>
 }
 
-let failer = fun () -> failwith "Type provided not vaid for action"
-
 let reducer (state: State) (action: Payload) =
     match action with
     | Message (user, timestamp) ->
