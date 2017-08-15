@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Reducks.FSharp", "Reducks.FSharp\Reducks.FSharp.fsproj", "{9C8CDED2-7633-412D-8ACB-AE8427548910}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Reducks.FSharp", "Reducks.FSharp\Reducks.FSharp.fsproj", "{39209BA8-7842-4121-BB43-394C1AB8C248}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{DFE44AA5-5156-4F0F-8755-5E8481354341}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{DF2A5D5E-082E-4AD2-AF0F-64FEA792BE27}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Reducks.FSharp.Examples.SignalR", "Examples\Reducks.FSharp.Examples.SignalR\Reducks.FSharp.Examples.SignalR.fsproj", "{899B09BC-DB61-43E4-B2C9-4743DC52343B}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Reducks.FSharp.Examples.SignalR", "Examples\Reducks.FSharp.Examples.SignalR\Reducks.FSharp.Examples.SignalR.fsproj", "{28CDB814-B858-4142-BDAE-887F86611438}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,19 +15,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9C8CDED2-7633-412D-8ACB-AE8427548910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C8CDED2-7633-412D-8ACB-AE8427548910}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C8CDED2-7633-412D-8ACB-AE8427548910}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C8CDED2-7633-412D-8ACB-AE8427548910}.Release|Any CPU.Build.0 = Release|Any CPU
-		{899B09BC-DB61-43E4-B2C9-4743DC52343B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{899B09BC-DB61-43E4-B2C9-4743DC52343B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{899B09BC-DB61-43E4-B2C9-4743DC52343B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{899B09BC-DB61-43E4-B2C9-4743DC52343B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39209BA8-7842-4121-BB43-394C1AB8C248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39209BA8-7842-4121-BB43-394C1AB8C248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39209BA8-7842-4121-BB43-394C1AB8C248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39209BA8-7842-4121-BB43-394C1AB8C248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28CDB814-B858-4142-BDAE-887F86611438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28CDB814-B858-4142-BDAE-887F86611438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28CDB814-B858-4142-BDAE-887F86611438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28CDB814-B858-4142-BDAE-887F86611438}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{899B09BC-DB61-43E4-B2C9-4743DC52343B} = {DFE44AA5-5156-4F0F-8755-5E8481354341}
+		{28CDB814-B858-4142-BDAE-887F86611438} = {DF2A5D5E-082E-4AD2-AF0F-64FEA792BE27}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8DBF7830-FCF3-49F1-8CDF-3FCB10269A2F}
 	EndGlobalSection
 EndGlobal
